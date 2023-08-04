@@ -1,6 +1,6 @@
 cabal-version:      2.4
 name:               ThisIsMe
-version:            0.1.0.0
+version:            1.0.0.0
 
 -- A short (one-line) description of the package.
 -- synopsis:
@@ -31,7 +31,7 @@ executable ThisIsMe
     main-is:          Main.hs
 
     -- Modules included in this executable, other than Main.
-    -- other-modules:
+    other-modules: Home, About, Projects, Stack, HelperMethods
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
@@ -42,5 +42,5 @@ executable ThisIsMe
                       text,
                       blaze-html,
                       wai-middleware-static,
-    hs-source-dirs:   src
+    hs-source-dirs:   src, src/pages
     default-language: Haskell2010
