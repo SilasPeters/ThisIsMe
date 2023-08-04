@@ -1,10 +1,19 @@
 # ThisIsMe
-My very own digital CV. Go beyond just a document.
+My very own digital CV/portfolio
 
-# This project is still being improved
+# Usage
+**With Docker**
+To run this through docker, use the following commands:
+```bash
+docker build --tag ThisIsMe .  # This will take around 7-10 minutes
+docker run --expose=3000 ThisIsMe
+```
 
-Do you have suggestions? Create a PR!<br>
-Do you want to contact me? Mail silaspeters03@gmail.com!
+**Without Docker**
+First, make sure you have installed stack. If you do not have ``stack`` installed yet, do so through [ghcup](https://www.haskell.org/ghcup/install/).
+Then, just hit ``$ stack run``.
 
-# FAQ
-On windows, you might run into issues related to the Scotty package. See their [FAQ](https://github.com/scotty-web/scotty#faq) for more information on how to fix scotty-related issues.
+If things don't work, I recommend you to use docker.
+
+# TODO
+Minimalize the docker image by using [haskell-scratch](https://github.com/fpco/haskell-scratch/) as the final parent image.
