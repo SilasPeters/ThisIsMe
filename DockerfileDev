@@ -31,25 +31,16 @@ RUN \
     chmod +x /usr/bin/ghcup && \
     ghcup config set gpg-setting GPGStrict
 
-ARG GHC=9.0.2
-ARG STACK=2.11.1
-
 # install GHC and stack
-RUN \
-    ghcup -v install ghc --isolate /usr/local --force ${GHC} && \
-    ghcup -v install stack --isolate /usr/local/bin --force ${STACK}
+RUN ghcup -v install ghc   --isolate /usr/local     --force 9.0.2
+RUN ghcup -v install stack --isolate /usr/local/bin --force 2.11.1
 
 # prepare environment
 WORKDIR /thisisme/
 COPY . .
 RUN stack setup
-RUN stack install --local-bin-path / # final executable will be copied to root
+RUN stack install --local-bin-path . # final executable will be copied to the current directory
 
-# now we copy over only the files we need to the final image
-FROM debian:stable-slim
-WORKDIR /thisisme/
-COPY --from=build ThisIsMe thisisme
-COPY public/ .
-RUN mkdir logs/
-
-CMD ["./thisisme", ">", "logs/$(date", "+\"%m-%d-%Y_%H:%M:%S\").log"]
+# recompile changes to the source code on every startup of the container
+# this enables you to mount a volume to docker in which you develop your code
+CMD stack run
