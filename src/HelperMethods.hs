@@ -17,7 +17,11 @@ mapFirst f (x:xs) = f x:xs
 
 -- Generates a table row with two cells
 tableRow2 :: Html -> Html -> Html
-tableRow2 a b = tr $ sequence_ [td a, td b]
+tableRow2 a b = enumerate tr td [a, b]
+
+-- Generates a table row with three cells
+tableRow3 :: Html -> Html -> Html -> Html
+tableRow3 a b c = enumerate tr td [a, b, c]
 
 -- Generates a table row with an arbitrary number of cells
 tableRow :: Foldable t => t Html -> Html
