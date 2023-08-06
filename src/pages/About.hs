@@ -60,7 +60,7 @@ contents = div ! class_ "centered-container" $ do
         h2 ! class_ "highlights-header" $ "Recommendations"
         div $ do
           div $ do
-            img ! src "media/FrankGoossens.jpg" ! width "40%:"
+            img ! src "media/FrankGoossens.jpg" ! width "40%;"
             h3 "Frank Goossens"
             div ! style "margin-left: 20px;" $ do
               p "Filiaalmanager at Praxis Nieuwegein"
