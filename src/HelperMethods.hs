@@ -15,6 +15,7 @@ mapFirst :: (a -> a) -> [a] -> [a]
 mapFirst _ []     = []
 mapFirst f (x:xs) = f x:xs
 
+-- TODO create a general table :: [[Html]] function
 -- Generates a table row with two cells
 tableRow2 :: Html -> Html -> Html
 tableRow2 a b = enumerate tr td [a, b]

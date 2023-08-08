@@ -78,6 +78,15 @@ body {
     from(rgba(0,0,0,0.2)), to(rgba(0,0,0,0)));
 }
 
+.background-picture-reverse-mask { /* https://stackoverflow.com/a/72817520/15746803 */
+  position: absolute;
+  width: 100%;
+  z-index: -1;
+
+  -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, 
+    from(rgba(0,0,0,0)), to(rgba(0,0,0,0.2)));
+}
+
 .highlights-header {
   box-shadow: inset 0px -1px #d0d7de;
   margin-top: 40px;

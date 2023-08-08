@@ -30,4 +30,5 @@ page = div ! class_ "centered-container" $ do
     img ! src "placeholder.jpg"
   forM_ contents $ \(header, images) -> section $ do
     h2 ! class_ "highlights-header" $ toHtml header
-    div ! class_ "highlights" $ mapM_ ((!) img . src . stringValue) images
+    div ! class_ "highlights" $
+      forM_ images $ (!) img . src . stringValue

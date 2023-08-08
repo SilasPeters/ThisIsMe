@@ -15,7 +15,7 @@ page :: Html
 page = sequence_ [backgroundPicture, contents]
 
 backgroundPicture :: Html
-backgroundPicture = img ! class_ "background-picture" ! src "media/about_wallpaper.jpg"
+backgroundPicture = img ! class_ "background-picture-reverse-mask" ! src "media/about_wallpaper.jpg"
 
 contents :: Html
 contents = div ! class_ "centered-container" $ do
@@ -38,9 +38,12 @@ contents = div ! class_ "centered-container" $ do
 ---------------------------------------------------------------------- About me
         h2 ! class_ "highlights-header" $ "About me"
         mapM_ (p . toHtml) ([
-          "Als 3e-jaars Informatica student bij universiteit Utrecht pas ik het beste bij een IT-werkplek. Ik ben bereid samen te werken en om bij te dragen aan het teamgevoel. Ik ben iemand die zoekt naar nieuwe manieren om dingen aan te pakken en hoop dan ook mijn ideeën kwijt te kunnen. Ik ben openminded en ik geef het toe wanneer ik fout zit. In mijn vrije tijd vind ik het fijn om buiten te zijn of om met vrienden de stad in te gaan. Ook ga ik zo nu en dan eropuit voor een foto-wandeling.",
-          "Bij mijn studievereniging, mijn werk en eigen projecten heb ik al ervaring met veel gebieden binnen de informatica, maar kan het beste abstract en low-level denken. Daarom heb ik het meest gefocust op .NET en back-end applicaties, maar ook op desktop solutions. Op werk en met eigen projecten heb ik al regelmatig ge-R&D’t. Zo heb ik zelf een TOTP generator geschreven met Haskell.",
-          "Binnen mijn studievereniging – Sticky - ben ik erg actief. Ik ben vaak aanwezig in de gezelligheidskamer en help ik binnen verschillende commissies. Zo ben ik sinds kort lid van de mediawerkgroep en help ik met het onderhouden van de IT van de vereniging. Ook heb ik een keer een uitje paintball georganiseerd."
+          "Creativity, problem-solving and loyalty.",
+          "Creativity, for that I enjoy imagining new experiences and creating something out of nothing. I try to look at something in a way nobody has done before.",
+          "Problem-solving, for I constantly find myself trying to optimise current systems and love to set my teeth in asbtract or low-level problems. My fullest potential can be reached in an environment where ideas can be shared freely.",
+          "Loyalty, for I believe that's the most beautifull yet important property someone can have.",
+          "As a Computer Sciences student at Utrecht University, I take great interest in the emergent properties of (complex) computer systems. However, I most enjoy practising my computer knowledge by creating new tools, enviroments and experiences, or algorithms which allow me to be creative - either by sculpting my fantasy into reality, or by needing to think of a solution the best (and the most neat way) I can.",
+          "Computers are the actuators of human fantasy."
           ] :: [String])
 ---------------------------------------------------------------------- Working experience
         h2 ! class_ "highlights-header" $ "Working experience"
