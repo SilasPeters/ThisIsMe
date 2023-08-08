@@ -43,3 +43,7 @@ enumerate parent child = parent . mapM_ child
 -- The reveres of the Blazer-html (!) operator
 apply :: Attribute -> Html -> Html
 apply = flip (!)
+
+-- Converts every string to a single 'p'
+paragraphs :: [String] -> Html
+paragraphs = mapM_ $ p . toHtml
