@@ -19,10 +19,17 @@ thumbnail :: Project -> AttributeValue
 thumbnail p = stringValue $ "https://raw.githubusercontent.com/SilasPeters/" ++ name p ++ "/main/thumbnail.jpg"
 
 columns :: [(String, [Project])]
-columns = [("Secure", [Project "Kaas" "Bier", Project "hoi" "daar"]),
-           ("Safe",   [Project "Tijgertje" "Warm", Project "Aap" "Noot en Mies", Project "kaas" "boer"]),
-           ("Sound",  [Project "Ik houd van" "Tijgertje"]),
-           ("Simple", [Project "ThisIsMe" "Deze zou moeten werken"])]
+columns = [("Secure",
+              [Project "Nonexisting" "Test project",
+               Project "Testproject" "Testproject"]),
+           ("Safe",
+              [Project "Testproject" "Testproject",
+               Project "Aap" "Noot en Mies",
+               Project "Testproject" "Testproject"]),
+           ("Sound",
+              [Project "Testproject" "Testproject"]),
+           ("Simple",
+              [Project "ThisIsMe" "Deze zou moeten werken"])]
 
 page :: Html
 page = div ! class_ "horizontal-stack" $ do
