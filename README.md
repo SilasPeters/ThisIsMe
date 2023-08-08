@@ -8,7 +8,7 @@ To run this through docker, use the following commands:
 
 ```bash
 $ port=3000 # Change this to whatever port you want to use to acces the website
-$ docker build -f DockerfileRelease --tag thisisMe .  # This will take around 10-15 minutes, sadly
+$ docker build -f DockerfileRelease --tag thisisme .  # This will take around 10-15 minutes, sadly
 $ docker run --name=thisisme -p $port:3000 -it thisisme
 ```
 
@@ -17,7 +17,7 @@ Now visit ``localhost:{port}`` where ``{port}`` should be replaced with the port
 **Without Docker**
 
 First, make sure you have installed stack. If you do not have ``stack`` installed yet, do so through [ghcup](https://www.haskell.org/ghcup/install/).
-Then, just hit ``$ stack run``.
+<br/>Then, just hit ``$ stack run``.
 
 Visit ``localhost:3000``, and you should see the home page.
 
