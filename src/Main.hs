@@ -14,6 +14,9 @@ import Control.Monad
 import Control.Monad.Trans
 import Control.Monad.IO.Class
 import Data.Text.Lazy.Encoding ( decodeUtf8 )
+import System.Directory ( listDirectory )
+import System.IO ( readFile' )
+import Data.List ( lookup )
 
 -- import HelperMethods
 import HelperMethods
@@ -60,25 +63,36 @@ view pageName page = S.html $ renderHtml $
       sourceButton
       page
 
+-- Preloads all source code to be displayed
+loadSource :: String -> IO [(String, String)]
+loadSource sourceFolder = do
+  filePaths <- map ((++) sourceFolder) <$> listDirectory sourceFolder
+  zip filePaths <$> mapM readFile' filePaths
+
 -- Set up middleware and routing (the API side)
 main :: IO ()
-main = S.scotty 3000 $ do
-  S.middleware logStdoutDev  -- Log to console
-  S.middleware $ staticPolicy (noDots >-> addBase "public")  -- Expose files in /public
+main = do
+  -- sourceMap <- loadSource "src/pages/"
+  -- putStrLn "Pre-loaded source files:"
+  -- mapM_ (putStrLn . (++) " - " . fst) sourceMap
+  S.scotty 3000 $ do
+    S.middleware logStdoutDev  -- Log to console
+    S.middleware $ staticPolicy (noDots >-> addBase "public")  -- Expose files in /pulic/
+    S.middleware $ staticPolicy (noDots >-> addBase "src/pages/")  -- Expose source code
 
-  S.get "/" $ view "Home" Home.page
+    S.get "/" $ view "Home" Home.page
 
-  S.get "/home"     $ view "Home"     Home.page
-  S.get "/about"    $ view "About"    About.page
-  S.get "/projects" $ view "Projects" Projects.page
-  S.get "/stack"    $ view "Stack"    Stack.page
+    S.get "/home"     $ view "Home"     Home.page
+    S.get "/about"    $ view "About"    About.page
+    S.get "/projects" $ view "Projects" Projects.page
+    S.get "/stack"    $ view "Stack"    Stack.page
 
-  -- S.get "/param" $ do
-  --   v <- S.param "fooparam"
-  --   S.html $ mconcat ["<h1>", v, "</h1>"]
+    -- S.get "/param" $ do
+    --   v <- S.param "fooparam"
+    --   S.html $ mconcat ["<h1>", v, "</h1>"]
 
-  -- S.get "/sexyparam/:aap/noot" $ do
-  --   v <- S.param "aap"
-  --   S.html $ mconcat ["<h2>", v, "</h2>"]
+    -- S.get "/sexyparam/:aap/noot" $ do
+    --   v <- S.param "aap"
+    --   S.html $ mconcat ["<h2>", v, "</h2>"]
 
 -- TODO add favicon
