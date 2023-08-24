@@ -27,11 +27,10 @@ RUN gpg --batch --keyserver keys.openpgp.org --recv-keys FE5AB6C91FEA597C3B31180
 
 # install ghcup
 RUN [ $(arch) = "aarch64" ] && \
-       (curl https://downloads.haskell.org/~ghcup/aarch64-linux-ghcup > /usr/bin/ghcup && \
-        chmod +x /usr/bin/ghcup) \
-    || (curl https://downloads.haskell.org/~ghcup/x86_64-linux-ghcup > /usr/bin/ghcup && \
-        chmod +x /usr/bin/ghcup && \
-        ghcup config set gpg-setting GPGStrict)
+    	(curl https://downloads.haskell.org/~ghcup/aarch64-linux-ghcup > /usr/bin/ghcup) \
+     || (curl https://downloads.haskell.org/~ghcup/x86_64-linux-ghcup  > /usr/bin/ghcup) \
+	&& chmod +x /usr/bin/ghcup \
+	&& ghcup config set gpg-setting GPGStrict
 
 # install stack
 RUN ghcup -v install stack --isolate /usr/local/bin --force 2.11.1
