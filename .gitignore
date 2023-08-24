@@ -21,3 +21,7 @@ cabal.project.local
 cabal.project.local~
 .HTF/
 .ghc.environment.*
+
+
+# I have some local html files I use for testing, which I do not want to add to git
+*.html
