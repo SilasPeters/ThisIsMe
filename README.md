@@ -1,3 +1,5 @@
+[[thumbnail.jpg]]
+
 # ThisIsMe
 My very own digital CV/portfolio
 

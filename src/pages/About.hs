@@ -32,7 +32,7 @@ contents = div ! class_ "centered-container" $ do
           tableRow2 "Phone" "+31 6 2835 4429"
           tableRow2 "E-mail" $ externalLink "mailto:silaspeters03+thisisme@gmail.com" "silaspeters03@gmail.com"
           tableRow2 "GitHub" $ externalLink "https://github.com/SilasPeters" "SilasPeters"
-      td $ img ! src "media/me1.jpg" ! width "300px"
+      td $ img ! src "media/me3.jpg" ! width "300px"
     tr $ do
       td $ do
 ---------------------------------------------------------------------- About me
@@ -68,7 +68,7 @@ contents = div ! class_ "centered-container" $ do
             div ! style "margin-left: 20px;" $ do
               p "Filiaalmanager at Praxis Nieuwegein"
               externalLink "mailto:ma-2319@praxis.nl" "ma-2319@praxis.nl"
-          p "\"Iemand waar je op kan rekenen 💪\""
+          p "\"Someone you can count on 💪\""
   
 ---------------------------------------------------------------------- Study Association
   section $ do

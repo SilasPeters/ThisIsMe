@@ -32,13 +32,14 @@ columns = [("Secure",
               [Project "ThisIsMe" "Deze zou moeten werken"])]
 
 page :: Html
-page = div ! class_ "horizontal-stack" $ do
+page = div $ do
   h1 "My projects"
+  div ! class_ "horizontal-stack" $ do
   -- Generate columns of tiles representing projects
-  forM_ columns $ \(header, projects) ->
-    section ! class_ "vertical-highlights" $ do
-      h2 ! class_ "highlights-header" $ toHtml header
-      tiles projects
+    forM_ columns $ \(header, projects) ->
+      section ! class_ "vertical-highlights" $ do
+        h2 ! class_ "highlights-header" $ toHtml header
+        tiles projects
 
 -- Generate an arbitrary number of tiles representing projects
 tiles :: Foldable t => t Project -> Html
