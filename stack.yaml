@@ -39,8 +39,8 @@ resolver:
 # - git: https://github.com/commercialhaskell/stack.git
 #   commit: e7b331f14bcffb8367cd58fbfc8b40ec7642100a
 #
-extra-deps:
-- blaze-0.0.2@sha256:ed28e134dfb0a0a1533e31583d92fa1c2364dadf32fca8ffe76c84c67e2f9bf3,222
+# extra-deps:
+# - blaze-0.0.2@sha256:ed28e134dfb0a0a1533e31583d92fa1c2364dadf32fca8ffe76c84c67e2f9bf3,222
 
 # Override default flag values for local packages and extra-deps
 # flags: {}exit

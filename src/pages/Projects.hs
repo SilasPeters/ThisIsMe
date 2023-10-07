@@ -10,42 +10,40 @@ import Prelude hiding ( div )
 
 import HelperMethods
 
-data Project = Project { name :: String, description :: String }
+repoUrl :: String -> AttributeValue
+repoUrl = stringValue . (++) "https://github.com/SilasPeters/"
 
-repo :: Project -> AttributeValue
-repo = stringValue . (++) "https://github.com/SilasPeters/" . name
+repoThumbnail :: String -> AttributeValue
+repoThumbnail p = stringValue $ "https://raw.githubusercontent.com/SilasPeters/" ++ p ++ "/main/thumbnail.jpg"
 
-thumbnail :: Project -> AttributeValue
-thumbnail p = stringValue $ "https://raw.githubusercontent.com/SilasPeters/" ++ name p ++ "/main/thumbnail.jpg"
+-- repoDescription :: String -> AttributeValue
+-- repoDescription = stringValue $ lookAt "description" $ 
 
-columns :: [(String, [Project])]
+columns :: [(String, [String])]
 columns = [("Secure",
-              [Project "Nonexisting" "Test project",
-               Project "Testproject" "Testproject"]),
+              ["Nonexisting", "Testproject"]),
            ("Safe",
-              [Project "Testproject" "Testproject",
-               Project "Aap" "Noot en Mies",
-               Project "Testproject" "Testproject"]),
+              ["Testproject", "Aap", "Testproject"]),
            ("Sound",
-              [Project "Testproject" "Testproject"]),
+              ["Testproject"]),
            ("Simple",
-              [Project "ThisIsMe" "Deze zou moeten werken"])]
+              ["ThisIsMe"])]
 
 page :: Html
 page = div $ do
   h1 "My projects"
-  div ! class_ "horizontal-stack" $ do
+  -- div ! class_ "horizontal-stack" $ do
   -- Generate columns of tiles representing projects
-    forM_ columns $ \(header, projects) ->
-      section ! class_ "vertical-highlights" $ do
-        h2 ! class_ "highlights-header" $ toHtml header
-        tiles projects
+    -- forM_ columns $ \(header, projects) ->
+    --   section ! class_ "vertical-highlights" $ do
+    --     h2 ! class_ "highlights-header" $ toHtml header
+    --     tiles projects
 
 -- Generate an arbitrary number of tiles representing projects
-tiles :: Foldable t => t Project -> Html
-tiles = mapM_ $ \p ->
-  apply (class_ "tile") $ externalLink (repo p) $ do
-    img ! src (thumbnail p)
-    div $ do
-      h4 $ toHtml $ name p
-      sub $ toHtml $ description p
+-- tiles :: Foldable t => t Project -> Html
+-- tiles = mapM_ $ \p ->
+--   apply (class_ "tile") $ externalLink (repo p) $ do
+--     img ! src (thumbnail p)
+--     div $ do
+--       h4 $ toHtml $ name p
+--       sub $ toHtml $ description p

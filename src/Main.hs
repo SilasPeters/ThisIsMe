@@ -13,20 +13,24 @@ import Data.Char ( toLower )
 import Control.Monad
 import Control.Monad.Trans
 import Control.Monad.IO.Class
+import Data.ByteString ( ByteString )
 import Data.Text.Lazy.Encoding ( decodeUtf8 )
 import System.Directory ( listDirectory )
 import System.IO ( readFile' )
 import Data.List ( lookup )
+import Data.Attoparsec ( parse )
+import Data.Aeson ( FromJSON, json )
+import Network.HTTP ( simpleHTTP, getResponseBody )
+-- import GHC.Utils.Json
 
--- import HelperMethods
 import HelperMethods
+import JsonTypes
 
 -- Import web pages
 import qualified Home
 import qualified About
 import qualified Projects
 import qualified Stack
-
 
 -- This list contains the names of all pages to be made available
 pages :: [String]
@@ -68,6 +72,13 @@ loadSource :: String -> IO [(String, String)]
 loadSource sourceFolder = do
   filePaths <- map ((++) sourceFolder) <$> listDirectory sourceFolder
   zip filePaths <$> mapM readFile' filePaths
+
+getRequest :: String -> IO ByteString
+getRequest url = getResponseBody =<< simpleHTTP (getRequest url)
+
+-- Fetch all information of all the repositories
+repositories :: IO [ Repository ]
+repositories = parse json $ getRequest "https://api.github.com/users/SilasPeters/repos"
 
 -- Set up middleware and routing (the API side)
 main :: IO ()

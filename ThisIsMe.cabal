@@ -31,7 +31,7 @@ executable ThisIsMe
     main-is:          Main.hs
 
     -- Modules included in this executable, other than Main.
-    other-modules: Home, About, Projects, Stack, HelperMethods
+    other-modules: Home, About, Projects, Stack, HelperMethods, JsonTypes, JsonRemappings
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
@@ -43,5 +43,10 @@ executable ThisIsMe
                       blaze-html,
                       wai-middleware-static,
                       directory,
+                      aeson,
+                      HTTP,
+                      bytestring,
+                      ghc,
+                      attoparsec,
     hs-source-dirs:   src, src/pages
     default-language: Haskell2010
