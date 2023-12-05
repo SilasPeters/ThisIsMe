@@ -216,3 +216,24 @@ a[target="_blank"]::after {
   -0-transition:      all 0.3s linear;
   transition:         all 0.3s linear;
 }
+
+.gallery {
+  display: flex;
+  /* flex-direction: row; */
+  flex-wrap: wrap;
+  margin: 5%;
+  row-gap: 20px;
+  column-gap: 20px;
+  justify-content: center;
+}
+
+.photoFrame {
+  width: 300px;
+  align-self: center;
+}
+
+.photoFrame > img {
+  width: 100%;
+  border-radius: 2%;
+}
+

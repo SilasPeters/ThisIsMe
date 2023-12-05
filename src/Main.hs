@@ -23,14 +23,13 @@ import HelperMethods
 
 -- Import web pages
 import qualified Home
-import qualified About
 import qualified Projects
-import qualified Stack
+import qualified Photography
 
 
 -- This list contains the names of all pages to be made available
 pages :: [String]
-pages = ["Home", "About", "Projects", "Stack"] -- TODO interpret this from the files in src/pages.
+pages = ["Home", "Projects", "Photography"]
 
 -- Defines default html header properties
 header :: String -> H.Html
@@ -46,7 +45,7 @@ navbar currentPage = H.nav H.! A.class_ "navbar-container" $ do
   H.div H.! A.class_ "navbar-body centered-container" $ do
     forM_ pages $ \page ->
       H.a H.! A.href (H.stringValue $ mapFirst toLower page) H.!? (page == currentPage, A.id "current-link") $ H.toHtml page
-    externalLink "https://photos.silaspeters.nl" "Photography"
+    -- externalLink "https://photos.silaspeters.nl" "Photography"
 
 -- The button to toggle the view between html and haskell code, displayed in the bottom-right corner
 sourceButton :: H.Html
@@ -82,10 +81,9 @@ main = do
 
     S.get "/" $ view "Home" Home.page
 
-    S.get "/home"     $ view "Home"     Home.page
-    S.get "/about"    $ view "About"    About.page
-    S.get "/projects" $ view "Projects" Projects.page
-    S.get "/stack"    $ view "Stack"    Stack.page
+    S.get "/home"        $ view "Home"          Home.page
+    S.get "/projects"    $ view "Projects"      Projects.page
+    S.get "/photography" $ view "Photography" $ Photography.page ["me2.jpg", "me3.jpg", "splash.jpg"]
 
     -- S.get "/param" $ do
     --   v <- S.param "fooparam"
@@ -94,5 +92,3 @@ main = do
     -- S.get "/sexyparam/:aap/noot" $ do
     --   v <- S.param "aap"
     --   S.html $ mconcat ["<h2>", v, "</h2>"]
-
--- TODO add favicon
