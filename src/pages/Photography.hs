@@ -44,7 +44,12 @@ photoFrame originalUrl thumbnailUrl =
 
 sadlySomeJavascript :: String
 sadlySomeJavascript = unlines
-  [ "document.addEventListener('DOMContentLoaded', function () {"
+  [ "// Forgive me, for I have sinned."
+  , "// I vowed to never use Javascript for this project, alas."
+  , "// Until I implement my media pipeline, this must suffice."
+  , ""
+  , "document.addEventListener('DOMContentLoaded', function () {"
+  , ""
   , "  // Get all images with the class 'clickableImage'"
   , "  const clickableImages = document.querySelectorAll('img');"
   , ""

@@ -11,7 +11,7 @@ import Prelude hiding ( div )
 -- ===========> Page skeleton
 
 page :: Html
-page = sequence_ [bigpicture, choice]
+page = sequence_ [bigpicture, disclaimer]
 
 -- ===========> Construct parts of the webpage
 
@@ -49,4 +49,10 @@ choice = section $ do
       p "Projects"
     a ! href "photography" $ do
       p "Photography"
+
+disclaimer :: Html
+disclaimer = section ! class_ "centered-container" $ do
+  h1 "This website is not done!"
+  p "While I am still desciding what content to place here, you should not expect things to look fabulous."
+  em "Check out my photos though, that page is done!"
     
