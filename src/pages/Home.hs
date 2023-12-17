@@ -8,9 +8,12 @@ import Text.Blaze.Html5.Attributes as A
 import Control.Monad
 import Prelude hiding ( div )
 
+-- ===========> Page skeleton
 
 page :: Html
-page = sequence_ [bigpicture, highlights]
+page = sequence_ [bigpicture, choice]
+
+-- ===========> Construct parts of the webpage
 
 bigpicture :: Html
 bigpicture = section ! class_ "bigpicture" $ do
@@ -19,8 +22,8 @@ bigpicture = section ! class_ "bigpicture" $ do
     sub "This is"
     h1 "Silas Peters"
 
-highlights :: Html
-highlights = div ! class_ "centered-container" $ do
+highlights :: Html -- NOT USED
+highlights = section ! class_ "centered-container" $ do
   section $ do
     h2 ! class_ "highlights-header" $ "Experience with a broad range of languages"
     div ! class_ "highlights" $ do
@@ -38,3 +41,12 @@ highlights = div ! class_ "centered-container" $ do
         "Press the floating button on the bottom-right to display this page's code. You can view this project on the "
         a ! href "projects#thisIsMe" $ "Projects" -- TODO make the # trick work
         " page to find out more."
+
+choice :: Html
+choice = section $ do
+  div $ do -- both choices
+    a ! href "projects" $ do
+      p "Projects"
+    a ! href "photography" $ do
+      p "Photography"
+    

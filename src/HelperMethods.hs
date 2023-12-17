@@ -7,7 +7,7 @@ import Text.Blaze.Html5.Attributes as A
 
 
 -- Generates an acnhor which, when clicked upon, opens the given url in a new tab or window, depending on the browsers settings.
-externalLink :: AttributeValue -> Html -> H.Html
+externalLink :: AttributeValue -> Html -> Html
 externalLink url = a ! href url ! target "_blank" ! rel "noreferrer noopener"
 
 -- Maps a function over the first value in a list

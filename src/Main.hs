@@ -16,26 +16,28 @@ import Control.Monad.IO.Class
 import Data.Text.Lazy.Encoding ( decodeUtf8 )
 import System.Directory ( listDirectory )
 import System.IO ( readFile' )
-import Data.List ( lookup )
+import Data.List ( lookup, sort )
 
--- import HelperMethods
 import HelperMethods
 
 -- Import web pages
-import qualified Home
-import qualified Projects
-import qualified Photography
+import Home
+import Projects
+import Photography
 
 
 -- This list contains the names of all pages to be made available
 pages :: [String]
 pages = ["Home", "Projects", "Photography"]
 
+defineGalleryOptions :: [PhotoName] -> GalleryOptions
+defineGalleryOptions = GalleryOptions "My hand-picked photos" ("/portfolio/" ++)
+
 -- Defines default html header properties
 header :: String -> H.Html
 header pageTitle = H.header $ do
   H.meta H.! A.charset "UTF-8"
-  H.meta H.! A.name "viewport" H.! A.content "width=device-width,initial-scale=1"
+  H.meta H.! A.name "viewport" H.! A.content "width=device-width, initial-scale=1"
   H.title $ H.toHtml $ "This is Silas Peters - " ++ pageTitle
   H.link H.! A.rel "stylesheet" H.! A.href "stylesheet.css"
   
@@ -71,6 +73,8 @@ loadSource sourceFolder = do
 -- Set up middleware and routing (the API side)
 main :: IO ()
 main = do
+  photoNames <- reverse . sort <$> listDirectory "public/portfolio"
+  let galleryOptions = defineGalleryOptions photoNames
   -- sourceMap <- loadSource "src/pages/"
   -- putStrLn "Pre-loaded source files:"
   -- mapM_ (putStrLn . (++) " - " . fst) sourceMap
@@ -83,7 +87,7 @@ main = do
 
     S.get "/home"        $ view "Home"          Home.page
     S.get "/projects"    $ view "Projects"      Projects.page
-    S.get "/photography" $ view "Photography" $ Photography.page ["me2.jpg", "me3.jpg", "splash.jpg"]
+    S.get "/photography" $ view "Photography" $ Photography.page galleryOptions
 
     -- S.get "/param" $ do
     --   v <- S.param "fooparam"

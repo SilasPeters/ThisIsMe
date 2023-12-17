@@ -2,50 +2,61 @@
 
 module Projects ( page ) where
 
-import Text.Blaze.Html5 as H hiding ( style, contents, header )
-import Text.Blaze.Html5.Attributes as A hiding ( name )
+import Text.Blaze.Html5            as H hiding ( style, contents, header )
+import Text.Blaze.Html5.Attributes as A hiding ( name, rows )
 
 import Control.Monad
-import Prelude hiding ( div )
+import Prelude                          hiding ( div )
 
 import HelperMethods
 
-data Project = Project { name :: String, description :: String }
-
-repo :: Project -> AttributeValue
-repo = stringValue . (++) "https://github.com/SilasPeters/" . name
-
-thumbnail :: Project -> AttributeValue
-thumbnail p = stringValue $ "https://raw.githubusercontent.com/SilasPeters/" ++ name p ++ "/main/thumbnail.jpg"
-
-columns :: [(String, [Project])]
-columns = [("Secure",
-              [Project "Nonexisting" "Test project",
-               Project "Testproject" "Testproject"]),
-           ("Safe",
-              [Project "Testproject" "Testproject",
-               Project "Aap" "Noot en Mies",
-               Project "Testproject" "Testproject"]),
-           ("Sound",
-              [Project "Testproject" "Testproject"]),
-           ("Simple",
-              [Project "ThisIsMe" "Deze zou moeten werken"])]
+-- ===========> Page skeleton
 
 page :: Html
 page = div $ do
   h1 "My projects"
   div ! class_ "horizontal-stack" $ do
-  -- Generate columns of tiles representing projects
-    forM_ columns $ \(header, projects) ->
+  -- Generate rows of tiles representing projects
+    forM_ rows $ \(header, projects) ->
       section ! class_ "vertical-highlights" $ do
         h2 ! class_ "highlights-header" $ toHtml header
-        tiles projects
+        mapM_ projectTile projects
 
--- Generate an arbitrary number of tiles representing projects
-tiles :: Foldable t => t Project -> Html
-tiles = mapM_ $ \p ->
-  apply (class_ "tile") $ externalLink (repo p) $ do
-    img ! src (thumbnail p)
+-- ===========> Define data and properties
+
+data Project = Project { name :: String, description :: String }
+
+-- Gets the URL of the project's repository
+projectRepo :: Project -> AttributeValue
+projectRepo p = stringValue $ "https://github.com/SilasPeters/" ++ name p
+
+-- Gets the URL of the project's thumbnail
+projectThumbnail :: Project -> AttributeValue
+projectThumbnail p = stringValue $ "https://raw.githubusercontent.com/SilasPeters/" ++ name p ++ "/main/thumbnail.jpg"
+
+-- ===========> Construct parts of the webpage
+
+-- Generates the HTML used to display a specified project
+projectTile :: Project -> Html
+projectTile p =
+  apply (class_ "tile") $ externalLink (projectRepo p) $ do
+    img ! src (projectThumbnail p)
     div $ do
       h4 $ toHtml $ name p
       sub $ toHtml $ description p
+
+-- Generates the HTML used to display a few projects as highlights
+highlights :: Foldable t => t Project -> Html
+highlights = undefined
+
+-- The HTML displaying all projects in rows
+rows :: [(String, [Project])]
+rows = [("Catagory 1",
+           [Project "ThisIsMe" "Deze zou moeten werken"]),
+        ("Safe",
+           [Project "Testproject" "Testproject",
+            Project "Aap" "Noot en Mies",
+            Project "Testproject" "Testproject"]),
+        ("Sound",
+           [Project "Testproject" "Testproject"])]
+

@@ -30,6 +30,8 @@ body {
   background-color: var(--color-30);
   cursor: pointer;
   border-color: var(--color-30-analogous);
+
+  transition: 0.3s;
 }
 
 #source-button:not(:hover) {
@@ -118,6 +120,8 @@ body {
   /* Overwrite 'a' styles */
   text-decoration: none; 
   color: inherit;
+
+  transition: 0.3s;
 }
 .tile:hover {
   background-color: var(--color-10);
@@ -169,6 +173,7 @@ h2 {
 a {
   text-decoration: none;
   color: var(--color-10);
+  transition: 0.3s;
 }
 a:hover {
   color: var(--color-30);
@@ -218,22 +223,33 @@ a[target="_blank"]::after {
 }
 
 .gallery {
-  display: flex;
-  /* flex-direction: row; */
-  flex-wrap: wrap;
-  margin: 5%;
-  row-gap: 20px;
-  column-gap: 20px;
-  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  /* background-color: var(--color-60-analogous); */
+  border-radius: 5%;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-gap: 20px;
 }
 
 .photoFrame {
-  width: 300px;
-  align-self: center;
+  width: 100%;
+  cursor: pointer;
+  transition: 0.3s;
+  border-radius: 4%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+  display: flex;
+  justify-content: center;
 }
 
-.photoFrame > img {
-  width: 100%;
-  border-radius: 2%;
+.verticalPhoto {
+  gird-row: span 2;
+}
+
+.photoFrame:hover {
+  transform: scale(1.1);
+  border-radius: 0%;
 }
 
