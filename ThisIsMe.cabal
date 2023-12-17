@@ -43,5 +43,6 @@ executable ThisIsMe
                       blaze-html,
                       wai-middleware-static,
                       directory,
+                      JuicyPixels
     hs-source-dirs:   src, src/pages
     default-language: Haskell2010
