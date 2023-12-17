@@ -25,16 +25,21 @@ import Home
 import Projects
 import Photography
 
+-- TODO process images to thumbnails, and while you are at it determine the orientations
+-- These orientations can then be used to apply the 'vertical' or 'horizontal' class to the photos,
+-- to align them on the grid properly. Cus fuck Javascript, that's why.
 
 -- This list contains the names of all pages to be made available
 pages :: [String]
 pages = ["Home", "Projects", "Photography"]
 
 defineGalleryOptions :: [PhotoName] -> GalleryOptions
-defineGalleryOptions = GalleryOptions
+defineGalleryOptions photoNames = GalleryOptions
   "My hand-picked photos"
   (Just "Displayed in reverse chronological order")
   ("/portfolio/" ++)
+  ("/portfolioThumbnails/" ++)
+  (reverse $ sort photoNames)
 
 -- Defines default html header properties
 header :: String -> H.Html
@@ -76,7 +81,7 @@ loadSource sourceFolder = do
 -- Set up middleware and routing (the API side)
 main :: IO ()
 main = do
-  photoNames <- reverse . sort <$> listDirectory "public/portfolio"
+  photoNames <- listDirectory "public/portfolio"
   let galleryOptions = defineGalleryOptions photoNames
   -- sourceMap <- loadSource "src/pages/"
   -- putStrLn "Pre-loaded source files:"
