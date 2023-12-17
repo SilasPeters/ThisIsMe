@@ -17,8 +17,6 @@ import Data.Text.Lazy.Encoding ( decodeUtf8 )
 import System.Directory ( listDirectory )
 import System.IO ( readFile' )
 import Data.List ( lookup, sort )
-import Codec.Picture ( readImage, imageWidth, imageHeight )
-import Codec.Picture.Types ( dynamicMap )
 
 import HelperMethods
 
@@ -32,7 +30,7 @@ import Photography
 pages :: [String]
 pages = ["Home", "Projects", "Photography"]
 
-defineGalleryOptions :: [PhotoName] -> [Orientation] -> GalleryOptions
+defineGalleryOptions :: [PhotoName] -> GalleryOptions
 defineGalleryOptions = GalleryOptions
   "My hand-picked photos"
   (Just "Displayed in reverse chronological order")
@@ -75,22 +73,11 @@ loadSource sourceFolder = do
   filePaths <- map ((++) sourceFolder) <$> listDirectory sourceFolder
   zip filePaths <$> mapM readFile' filePaths
 
-readOrientation :: FilePath -> IO Orientation
-readOrientation fp = do
-  imgRead <- readImage fp
-  return $ either
-    error
-    (\img -> if (dynamicMap imageWidth img) < (dynamicMap imageHeight img)
-      then Vertical else Horizontal)
-    imgRead
-
 -- Set up middleware and routing (the API side)
 main :: IO ()
 main = do
-  let portfolioPath = "public/portfolio/"
-  photoNames <- reverse . sort <$> listDirectory portfolioPath
-  orientations <- mapM readOrientation (map (portfolioPath ++) photoNames)
-  let galleryOptions = defineGalleryOptions photoNames orientations
+  photoNames <- reverse . sort <$> listDirectory "public/portfolio"
+  let galleryOptions = defineGalleryOptions photoNames
   -- sourceMap <- loadSource "src/pages/"
   -- putStrLn "Pre-loaded source files:"
   -- mapM_ (putStrLn . (++) " - " . fst) sourceMap

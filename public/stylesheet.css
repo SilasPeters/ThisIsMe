@@ -233,6 +233,11 @@ a[target="_blank"]::after {
   grid-gap: 20px;
 }
 
+/* TODO See branch Picture-Processing for a automatic way */
+.photoFrame:nth-child(1),
+.photoFrame:nth-child(9) {
+  grid-row: span 2;
+}
 .photoFrame {
   width: 100%;
   cursor: pointer;
@@ -242,10 +247,6 @@ a[target="_blank"]::after {
 
   display: flex;
   justify-content: center;
-}
-
-.verticalPhoto {
-  gird-row: span 2;
 }
 
 .photoFrame:hover {
