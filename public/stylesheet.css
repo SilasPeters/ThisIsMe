@@ -267,8 +267,8 @@ a[target="_blank"]::after {
 
 #enlargedImg {
   display: none;
-  max-width: 80%;
-  max-height: 80%;
+  max-width: min(2000px, 80%);
+  max-height: min(2000px, 80%);
   position: fixed;
   top: 50%;
   left: 50%;
