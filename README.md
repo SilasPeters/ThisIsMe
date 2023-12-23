@@ -26,3 +26,5 @@ If things don't work, I recommend you to use docker.
 # TODO
 - Minimalize the docker image by using [haskell-scratch](https://github.com/fpco/haskell-scratch/) as the final parent image.
 - Allow synonyms in routes (/photography, /photos, /fotos)
+- Make thumbnails even smaller, and perhaps also the original pictures to 2k (1600xY). Use webp?
+  - Generate smaller versions of thumbnails through pipeline
