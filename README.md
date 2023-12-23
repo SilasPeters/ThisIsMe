@@ -24,4 +24,5 @@ Visit ``localhost:3000``, and you should see the home page.
 If things don't work, I recommend you to use docker.
 
 # TODO
-Minimalize the docker image by using [haskell-scratch](https://github.com/fpco/haskell-scratch/) as the final parent image.
+- Minimalize the docker image by using [haskell-scratch](https://github.com/fpco/haskell-scratch/) as the final parent image.
+- Allow synonyms in routes (/photography, /photos, /fotos)
