@@ -88,7 +88,7 @@ page title page activeSourceButton = S.html $ renderHtml $
 
 -- Generates the body of a page which displays source code
 sourceBody :: SourceCode -> H.Html
-sourceBody = H.code . H.toHtml
+sourceBody = apply (A.class_ "source") . H.pre . H.code . H.toHtml
 
 -- Based on whether the query param "displaySource" is set to true,
 -- will generate a page with source code or the original page
@@ -122,19 +122,7 @@ main = do
     S.middleware $ staticPolicy (noDots >-> addBase "public")  -- Expose files in /pulic/
     S.middleware $ staticPolicy (noDots >-> addBase "src/pages/")  -- Expose source code
 
-    -- showSource <- (==) "true" <$> S.param "displaySource"
-    -- unless (not showSource) $ S.get "/test" $ page "Home" Home.page
-
     exposePage ["/", "/home"] $ normalOrSource "Home" Home.body (fromJust $ lookup "src/pages/Home.hs" sourceMap)
-    -- exposePage ["/projects"]
-    --   "Projects" Projects.page "test"
-    -- exposePage ["/photography", "/photos", "/fotos"]
-    --   "Photography" (Photography.page galleryOptions) "test"
+    exposePage ["/projects"] $ normalOrSource "Projects" Projects.body (fromJust $ lookup "src/pages/Projects.hs" sourceMap)
+    exposePage ["/photography", "/photos", "/fotos"] $ normalOrSource "Photography" (Photography.body galleryOptions) (fromJust $ lookup "src/pages/Photography.hs" sourceMap)
 
-    -- S.get "/param" $ do
-    --   v <- S.param "fooparam"
-    --   S.html $ mconcat ["<h1>", v, "</h1>"]
-
-    -- S.get "/sexyparam/:aap/noot" $ do
-    --   v <- S.param "aap"
-    --   S.html $ mconcat ["<h2>", v, "</h2>"]

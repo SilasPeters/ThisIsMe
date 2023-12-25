@@ -204,22 +204,8 @@ a[target="_blank"]::after {
   color: var(--color-10);
 }
 
-.code {
-  opacity: 0;
-  position: absolute;
-  z-index: 3;
-  background-color: var(--color-60);
-  width: 100%;
-  height: 100%;
-}
-
-.code:target {
-  opacity: 1;
-  -webkit-transition: all 0.3s linear;
-  -ms-transition:     all 0.3s linear;
-  -moz-transition:    all 0.3s linear;
-  -0-transition:      all 0.3s linear;
-  transition:         all 0.3s linear;
+.source {
+  margin: 2%;
 }
 
 .gallery {
@@ -275,3 +261,4 @@ a[target="_blank"]::after {
   transform: translate(-50%, -50%);
   z-index: 420;
 }
+
