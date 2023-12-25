@@ -48,5 +48,6 @@ FROM debian:stable-slim
 WORKDIR /thisisme/
 COPY --from=build /ThisIsMe thisisme
 COPY public/ ./public/
+COPY src/pages/ ./src/pages/
 
 CMD ./thisisme

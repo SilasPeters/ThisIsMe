@@ -28,3 +28,4 @@ If things don't work, I recommend you to use docker.
 - Allow synonyms in routes (/photography, /photos, /fotos)
 - Make thumbnails even smaller, and perhaps also the original pictures to 2k (1600xY). Use webp?
   - Generate smaller versions of thumbnails through pipeline
+- Apply linter
