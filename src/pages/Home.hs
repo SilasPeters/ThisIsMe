@@ -55,4 +55,4 @@ disclaimer = section ! class_ "centered-container" $ do
   h1 "This website is not done!"
   p "While I am still desciding what content to place here, you should not expect things to look fabulous."
   em "Check out my photos though, that page is done!"
-    
+
