@@ -63,9 +63,12 @@ navbar currentPage = H.nav H.! A.class_ "navbar-container" $ do
     -- externalLink "https://photos.silaspeters.nl" "Photography"
 
 -- The button to toggle the view between html and haskell code, displayed in the bottom-right corner
-sourceButton :: H.Html
-sourceButton = H.button H.! A.id "source-button" H.! A.onclick "location.href='?displaySource=true'" $
-  H.img H.! A.src "media/source-enable.png"
+sourceButton :: Bool -> H.Html
+sourceButton active = H.button H.! A.id "source-button" H.! A.onclick onclickHref $
+  H.img H.! A.src imgSrc
+  where
+    onclickHref = if not active then "location.href='?displaySource=true'" else "location.href=location.href.split('?')[0]" 
+    imgSrc = if not active then "media/source-enable.png" else "media/source-disable.png" 
 
 -- Preloads all source code to be displayed
 loadSource :: String -> IO [(String, String)]
@@ -74,13 +77,13 @@ loadSource sourceFolder = do
   zip filePaths <$> mapM readFile' filePaths
 
 -- Fills the page template with the given body
-page :: Title -> H.Html -> S.ActionM ()
-page title page = S.html $ renderHtml $
+page :: Title -> H.Html -> Bool -> S.ActionM ()
+page title page activeSourceButton = S.html $ renderHtml $
   H.docTypeHtml $ do
     header title
     H.body $ do
       navbar title
-      sourceButton
+      sourceButton activeSourceButton
       page
 
 -- Generates the body of a page which displays source code
@@ -93,8 +96,8 @@ normalOrSource :: Title -> H.Html -> SourceCode -> S.ActionM () -- TODO generali
 normalOrSource title html source = do
   showSource <- S.queryParamMaybe "displaySource" :: S.ActionM (Maybe String)
   case showSource of
-    Just "true" -> page title $ sourceBody source
-    _           -> page title html
+    Just "true" -> page title (sourceBody source) True
+    _           -> page title html False
 
 exposePage :: [S.RoutePattern] -> S.ActionM () -> S.ScottyM ()
 exposePage routes page = forM_ routes $ \r -> S.get r page
