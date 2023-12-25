@@ -17,6 +17,7 @@ import Data.Text.Lazy.Encoding ( decodeUtf8 )
 import System.Directory ( listDirectory )
 import System.IO ( readFile' )
 import Data.List ( lookup, sort )
+import Data.Maybe ( fromJust )
 
 import HelperMethods
 
@@ -28,6 +29,10 @@ import Photography
 -- TODO process images to thumbnails, and while you are at it determine the orientations
 -- These orientations can then be used to apply the 'vertical' or 'horizontal' class to the photos,
 -- to align them on the grid properly. Cus fuck Javascript, that's why.
+
+type Route = String
+type SourceCode = String
+type Title = String
 
 -- This list contains the names of all pages to be made available
 pages :: [String]
@@ -48,7 +53,7 @@ header pageTitle = H.header $ do
   H.meta H.! A.name "viewport" H.! A.content "width=device-width, initial-scale=1"
   H.title $ H.toHtml $ "This is Silas Peters - " ++ pageTitle
   H.link H.! A.rel "stylesheet" H.! A.href "stylesheet.css"
-  
+
 -- Generates Html code which defines the navbar
 navbar :: String -> H.Html
 navbar currentPage = H.nav H.! A.class_ "navbar-container" $ do
@@ -59,43 +64,69 @@ navbar currentPage = H.nav H.! A.class_ "navbar-container" $ do
 
 -- The button to toggle the view between html and haskell code, displayed in the bottom-right corner
 sourceButton :: H.Html
-sourceButton = H.button H.! A.id "source-button" $
+sourceButton = H.button H.! A.id "source-button" H.! A.onclick "location.href='?displaySource=true'" $
   H.img H.! A.src "media/source-enable.png"
-
--- Displays given Html by inserting it into the global template
-view :: String -> H.Html -> S.ActionM ()
-view pageName page = S.html $ renderHtml $
-  H.docTypeHtml $ do
-    header pageName
-    H.body $ do
-      navbar pageName
-      sourceButton
-      page
 
 -- Preloads all source code to be displayed
 loadSource :: String -> IO [(String, String)]
 loadSource sourceFolder = do
-  filePaths <- map ((++) sourceFolder) <$> listDirectory sourceFolder
+  filePaths <- map (sourceFolder ++) <$> listDirectory sourceFolder
   zip filePaths <$> mapM readFile' filePaths
+
+-- Fills the page template with the given body
+page :: Title -> H.Html -> S.ActionM ()
+page title page = S.html $ renderHtml $
+  H.docTypeHtml $ do
+    header title
+    H.body $ do
+      navbar title
+      sourceButton
+      page
+
+-- Generates the body of a page which displays source code
+sourceBody :: SourceCode -> H.Html
+sourceBody = H.code . H.toHtml
+
+-- Based on whether the query param "displaySource" is set to true,
+-- will generate a page with source code or the original page
+normalOrSource :: Title -> H.Html -> SourceCode -> S.ActionM () -- TODO generalise this to a function like Parser.option
+normalOrSource title html source = do
+  showSource <- S.queryParamMaybe "displaySource" :: S.ActionM (Maybe String)
+  case showSource of
+    Just "true" -> page title $ sourceBody source
+    _           -> page title html
+
+exposePage :: [S.RoutePattern] -> S.ActionM () -> S.ScottyM ()
+exposePage routes page = forM_ routes $ \r -> S.get r page
+
 
 -- Set up middleware and routing (the API side)
 main :: IO ()
 main = do
+  -- Process portfolio
   photoNames <- listDirectory "public/portfolio"
   let galleryOptions = defineGalleryOptions photoNames
-  -- sourceMap <- loadSource "src/pages/"
-  -- putStrLn "Pre-loaded source files:"
-  -- mapM_ (putStrLn . (++) " - " . fst) sourceMap
+  putStrLn "Processed portfolio images:"
+  mapM_ (putStrLn . (++) " - ") photoNames
+
+  -- Process source code to be displayed
+  sourceMap <- loadSource "src/pages/"
+  putStrLn "Pre-loaded source files:"
+  mapM_ (putStrLn . (++) " - " . fst) sourceMap
+
   S.scotty 3000 $ do
     S.middleware logStdoutDev  -- Log to console
     S.middleware $ staticPolicy (noDots >-> addBase "public")  -- Expose files in /pulic/
     S.middleware $ staticPolicy (noDots >-> addBase "src/pages/")  -- Expose source code
 
-    S.get "/" $ view "Home" Home.page
+    -- showSource <- (==) "true" <$> S.param "displaySource"
+    -- unless (not showSource) $ S.get "/test" $ page "Home" Home.page
 
-    S.get "/home"        $ view "Home"          Home.page
-    S.get "/projects"    $ view "Projects"      Projects.page
-    S.get "/photography" $ view "Photography" $ Photography.page galleryOptions
+    exposePage ["/", "/home"] $ normalOrSource "Home" Home.body (fromJust $ lookup "src/pages/Home.hs" sourceMap)
+    -- exposePage ["/projects"]
+    --   "Projects" Projects.page "test"
+    -- exposePage ["/photography", "/photos", "/fotos"]
+    --   "Photography" (Photography.page galleryOptions) "test"
 
     -- S.get "/param" $ do
     --   v <- S.param "fooparam"

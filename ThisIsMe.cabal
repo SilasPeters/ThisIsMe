@@ -37,7 +37,7 @@ executable ThisIsMe
     -- other-extensions:
     build-depends:    base ^>=4.16.4.0,
                       mtl,
-                      scotty,
+                      scotty >= 0.21,
                       wai-extra,
                       text,
                       blaze-html,

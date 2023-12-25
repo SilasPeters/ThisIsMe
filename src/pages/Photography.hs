@@ -1,8 +1,8 @@
 {-# language OverloadedStrings #-}
 
-module Photography ( page, GalleryOptions(..), PhotoName, PhotoUrl ) where
+module Photography ( body, GalleryOptions(..), PhotoName, PhotoUrl ) where
 
-import Text.Blaze.Html5            as H hiding ( style, contents, header )
+import Text.Blaze.Html5            as H hiding ( style, contents, header, body )
 import Text.Blaze.Html5.Attributes as A
 
 import Control.Monad                    ( forM_ )
@@ -25,8 +25,8 @@ data GalleryOptions = GalleryOptions
 
 -- ===========> Page skeleton
 
-page :: GalleryOptions -> Html
-page (GalleryOptions header description photoUrl thumbnailUrl photos) = do
+body :: GalleryOptions -> Html -- TODO return Scotty.ActionM? This allows reading params here. Template can be applied monadically?
+body (GalleryOptions header description photoUrl thumbnailUrl photos) = do
   div ! class_ "centered-container" $ do
     h1 $ toHtml header
     case description of -- TOOD can become a helper method
@@ -51,7 +51,7 @@ sadlySomeJavascript = unlines
   , "document.addEventListener('DOMContentLoaded', function () {"
   , ""
   , "  // Get all images with the class 'clickableImage'"
-  , "  const clickableImages = document.querySelectorAll('img');"
+  , "  const clickableImages = document.querySelectorAll('.photoFrame');"
   , ""
   , "  // Create overlay element"
   , "  const overlay = document.createElement('div');"

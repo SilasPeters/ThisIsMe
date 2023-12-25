@@ -1,8 +1,8 @@
 {-# language OverloadedStrings #-}
 
-module Home ( page ) where
+module Home ( body ) where
 
-import Text.Blaze.Html5 as H
+import Text.Blaze.Html5 as H            hiding ( body )
 import Text.Blaze.Html5.Attributes as A
 
 import Control.Monad
@@ -10,8 +10,8 @@ import Prelude hiding ( div )
 
 -- ===========> Page skeleton
 
-page :: Html
-page = sequence_ [bigpicture, disclaimer]
+body :: Html
+body = sequence_ [bigpicture, disclaimer]
 
 -- ===========> Construct parts of the webpage
 

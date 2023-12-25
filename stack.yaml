@@ -41,6 +41,7 @@ resolver:
 #
 extra-deps:
 - blaze-0.0.2@sha256:ed28e134dfb0a0a1533e31583d92fa1c2364dadf32fca8ffe76c84c67e2f9bf3,222
+- scotty-0.21@sha256:2aaa49443be42cfbbefb47adf6643a7d27ea376a2aab54afc89f5dd6fd6614af,5775
 
 # Override default flag values for local packages and extra-deps
 # flags: {}exit

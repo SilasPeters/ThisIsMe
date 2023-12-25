@@ -11,6 +11,13 @@ packages:
       size: 101
   original:
     hackage: blaze-0.0.2@sha256:ed28e134dfb0a0a1533e31583d92fa1c2364dadf32fca8ffe76c84c67e2f9bf3,222
+- completed:
+    hackage: scotty-0.21@sha256:2aaa49443be42cfbbefb47adf6643a7d27ea376a2aab54afc89f5dd6fd6614af,5775
+    pantry-tree:
+      sha256: c04f98254e6349062ba69677e286c4473ac06b6c8f7810660ce5933926c50e72
+      size: 2068
+  original:
+    hackage: scotty-0.21@sha256:2aaa49443be42cfbbefb47adf6643a7d27ea376a2aab54afc89f5dd6fd6614af,5775
 snapshots:
 - completed:
     sha256: a684cdbdf9304b325a503e0fe1d9648e9c18155ce4c7cfebbe8a7f93674e6295

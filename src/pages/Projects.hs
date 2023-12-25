@@ -1,8 +1,8 @@
 {-# language OverloadedStrings #-}
 
-module Projects ( page ) where
+module Projects ( body ) where
 
-import Text.Blaze.Html5            as H hiding ( style, contents, header )
+import Text.Blaze.Html5            as H hiding ( style, contents, header, body )
 import Text.Blaze.Html5.Attributes as A hiding ( name, rows )
 
 import Control.Monad
@@ -12,8 +12,8 @@ import HelperMethods
 
 -- ===========> Page skeleton
 
-page :: Html
-page = div $ do
+body :: Html
+body = div $ do
   h1 "My projects"
   div ! class_ "horizontal-stack" $ do
   -- Generate rows of tiles representing projects
