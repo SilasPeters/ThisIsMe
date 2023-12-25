@@ -1,52 +1,33 @@
-#syntax=docker/dockerfile:1
-FROM debian:stable-slim as build
+FROM haskell:9.2.5-slim as build
 
-# install dependencies
-RUN \
-    apt-get update -y && \
-    apt-get install -y --no-install-recommends \
-        curl \
-        libnuma-dev \
-        zlib1g-dev \
-        libgmp-dev \
-        libgmp10 \
-        git \
-        wget \
-        lsb-release \
-        software-properties-common \
-        gnupg2 \
-        apt-transport-https \
-        gcc \
-        autoconf \
-        automake \
-        build-essential
+WORKDIR /opt/build
 
-# install gpg keys
-RUN gpg --batch --keyserver keys.openpgp.org --recv-keys 7D1E8AFD1D4A16D71FADA2F2CCC85C0E40C06A8C
-RUN gpg --batch --keyserver keys.openpgp.org --recv-keys FE5AB6C91FEA597C3B31180B73EDE9E8CFBAEF01
+# Copy the files responsible for listing dependencies
+COPY stack.yaml stack.yaml.lock ThisIsMe.cabal ./
 
-# install ghcup
-RUN [ $(arch) = "aarch64" ] && \
-    	(curl https://downloads.haskell.org/~ghcup/aarch64-linux-ghcup > /usr/bin/ghcup) \
-     || (curl https://downloads.haskell.org/~ghcup/x86_64-linux-ghcup  > /usr/bin/ghcup) \
-	&& chmod +x /usr/bin/ghcup \
-	&& ghcup config set gpg-setting GPGStrict
+# Cache the dependencies
+RUN stack build --only-dependencies
 
-# install stack
-RUN ghcup -v install stack --isolate /usr/local/bin --force 2.11.1
+# Copy the source files
+COPY src src
 
-# prepare environment
-WORKDIR /thisisme/
-COPY . .
+# Compile the project
+RUN stack install --local-bin-path ./
 
-# stack setup will install the appropriate GHC version
-RUN stack setup
-RUN stack install --local-bin-path / # final executable will be copied to root
+# Now we copy only the files we need to the final image.
+# Using alpine here because it is much smaller than debian slim
+# and we only need glibc and gmp as shared libraries
+FROM alpine
 
-# now we copy over only the files we need to the final image
-FROM debian:stable-slim
-WORKDIR /thisisme/
-COPY --from=build /ThisIsMe thisisme
-COPY public/ ./public/
+EXPOSE 3000
+
+WORKDIR /home/website
+
+RUN apk add gcompat gmp
+
+COPY --from=build /opt/build/ThisIsMe thisisme
+
+# Copy the remaining files not required for compilation
+COPY public public
 
 CMD ./thisisme
