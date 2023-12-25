@@ -12,12 +12,15 @@ $ docker build -f DockerfileRelease --tag thisisme .  # This will take around 10
 $ docker run --name=thisisme -p $port:3000 -it thisisme
 ```
 
-Now visit ``localhost:{port}`` where ``{port}`` should be replaced with the port you chose earlier, and you should see the home page!
+Now visit ``localhost:{port}`` where ``{port}`` should be replaced with the port
+you chose earlier, and you should see the home page!
 
 **Without Docker**
 
-First, make sure you have installed stack. If you do not have ``stack`` installed yet, do so through [ghcup](https://www.haskell.org/ghcup/install/).
-<br/>Then, just hit ``$ stack run``.
+First, make sure you have installed stack. If you do not have ``stack`` installed
+yet, do so through [ghcup](https://www.haskell.org/ghcup/install/).
+
+Then, just hit ``$ stack run``.
 
 Visit ``localhost:3000``, and you should see the home page.
 
@@ -26,6 +29,7 @@ If things don't work, I recommend you to use docker.
 # TODO
 - Minimalize the docker image by using [haskell-scratch](https://github.com/fpco/haskell-scratch/) as the final parent image.
 - Allow synonyms in routes (/photography, /photos, /fotos)
-- Make thumbnails even smaller, and perhaps also the original pictures to 2k (1600xY). Use webp?
+- Make thumbnails even smaller, and perhaps also the original pictures to 2k(1600xY). Use webp?
   - Generate smaller versions of thumbnails through pipeline
 - Apply linter
+- Implement pipeline to generate thumbnails, process image orientations
