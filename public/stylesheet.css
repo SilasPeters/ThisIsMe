@@ -211,17 +211,16 @@ a[target="_blank"]::after {
 .gallery {
   justify-items: center;
   align-items: center;
-  /* background-color: var(--color-60-analogous); */
-  /* border-radius: 20px; */
 
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   grid-gap: 20px;
 }
 
-/* TODO See branch Picture-Processing for a automatic way */
+/* TODO See branch Picture-Processing for an automatic way */
 .photoFrame:nth-child(1),
-.photoFrame:nth-child(9) {
+.photoFrame:nth-child(2),
+.photoFrame:nth-child(11) {
   grid-row: span 2;
 }
 .photoFrame {
