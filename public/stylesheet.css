@@ -138,12 +138,13 @@ body {
   width: 40%;
 }
 
-.surprise {
-  font-size: x-large;
+.haskell {
+  margin-top: 100px;
+  font-size: normal;
   text-align: center;
 }
-.surprise > img {
-  height: 5em;
+.haskell > img {
+  height: 3em;
 }
 
 h1 {

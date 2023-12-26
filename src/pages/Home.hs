@@ -11,7 +11,7 @@ import Prelude hiding ( div )
 -- ===========> Page skeleton
 
 body :: Html
-body = sequence_ [bigpicture, disclaimer]
+body = sequence_ [bigpicture, disclaimer, haskell]
 
 -- ===========> Construct parts of the webpage
 
@@ -22,25 +22,11 @@ bigpicture = section ! class_ "bigpicture" $ do
     sub "This is"
     h1 "Silas Peters"
 
-highlights :: Html -- NOT USED
-highlights = section ! class_ "centered-container" $ do
-  section $ do
-    h2 ! class_ "highlights-header" $ "Experience with a broad range of languages"
-    div ! class_ "highlights" $ do
-      a ! class_ "tile" ! href "projects#kaas" $ do
-        img ! src "placeholder.jpg"
-        p ! class_ "tile-description" $ "This is a test"
-      a ! class_ "tile" ! href "projects#bier" $ do
-        img ! src "placeholder.jpg"
-        p ! class_ "tile-description" $ "Aap noot mies"
-    h2 ! class_ "highlights-header" $ "Surprising"
-    div ! class_ "surprise" $ do
-      p "This site is not made with some mainstream framework, but with"
-      img ! src "media/haskell.png" ! alt "Haskell"
-      p $ do
-        "Press the floating button on the bottom-right to display this page's code. You can view this project on the "
-        a ! href "projects#thisIsMe" $ "Projects" -- TODO make the # trick work
-        " page to find out more."
+haskell :: Html
+haskell = section ! class_ "centered-container haskell" $ do
+    p "This site is not made with some mainstream framework, but proudly with"
+    img ! src "media/haskell.png" ! alt "Haskell logo" -- TODO apply alt everywhere
+    p "View the code of the current page by clicking on the floating button on the bottom-right."
 
 choice :: Html
 choice = section $ do
