@@ -58,3 +58,4 @@ Visit ``localhost:3000``, and you should see the home page.
   - Generate smaller versions of thumbnails through pipeline
 - Apply linter
 - Implement pipeline to generate thumbnails, process image orientations
+- Specify canonical link and/or `noindex` meta attribute
