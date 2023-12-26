@@ -29,5 +29,6 @@ COPY --from=build /opt/build/ThisIsMe thisisme
 
 # Copy the remaining files not required for compilation
 COPY public public
+COPY src/pages src/pages
 
 CMD ./thisisme
