@@ -59,3 +59,4 @@ Visit ``localhost:3000``, and you should see the home page.
 - Apply linter
 - Implement pipeline to generate thumbnails, process image orientations
 - Specify canonical link and/or `noindex` meta attribute
+- Syntax highlighting
