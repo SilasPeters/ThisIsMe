@@ -1,0 +1,16 @@
+{
+	"name": "Haskell",
+	"build": {
+		"context": "..",
+		"dockerfile": "Dockerfile"
+	},
+	"forwardPorts": [3000],
+	"customizations": {
+		"vscode": {
+			"extensions": ["haskell.haskell"],
+			"settings": {
+				"haskell.ghcupExecutablePath": "/root/.ghcup/bin/ghcup"
+			}
+		}
+	}
+}
