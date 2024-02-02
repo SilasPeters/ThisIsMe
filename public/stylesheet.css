@@ -179,13 +179,40 @@ body {
   height: 100%; /* TODO on mobile you cannot hover */
 }
 
+.divide {
+  display: flex;
+  justify-content: center;
+}
+
+.welcome {
+  width: 60%;
+}
+
 .haskell {
-  margin-top: 100px;
-  font-size: normal;
+  width: 20%;
+  font-size: small;
   text-align: center;
 }
 .haskell > img {
   height: 3em;
+}
+
+@media (max-width: 767px) {
+  .divide {
+	display: block;
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+  }
+  
+  .welcome {
+	width: 100%;
+  }
+
+  .haskell {
+	margin-top: 100px;
+	width: 100%;
+  }
 }
 
 h1 {

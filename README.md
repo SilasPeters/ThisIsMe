@@ -18,8 +18,8 @@ Then, run the following commands:
 
 ```bash
 port=3000 # Change this to whatever port you want to use to acces the website
-docker build -f DockerfileRelease --tag thisisme-release . # This will take 10-15 minutes
-docker create --name=thisisme-release -p $port:3000 thisisme-release
+docker build -f Dockerfile --tag thisisme . # This will take 10-15 minutes
+docker create --name=thisisme -p $port:3000 thisisme
 ```
 
 Luckly, docker cashes most of these steps.
@@ -39,7 +39,7 @@ This assumes you are still in the ``ThisIsMe`` directory.
 ### Usage with Docker
 
 ```bash
-docker start thisisme-release # Add the -i flag to print output
+docker start thisisme # Add the -i flag to print output
 ```
 
 Now visit ``localhost:{port}`` where ``{port}`` should be replaced with the port

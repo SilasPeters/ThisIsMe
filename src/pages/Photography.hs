@@ -5,12 +5,12 @@ module Photography ( body, GalleryOptions(..), PhotoName, PhotoUrl ) where
 import Text.Blaze.Html5            as H hiding ( style, contents, header, body )
 import Text.Blaze.Html5.Attributes as A
 
-import Control.Monad                    ( forM_ )
+import Control.Monad ( forM_ )
 import Prelude                          hiding ( div )
 
 import HelperMethods
 
--- ===========> Configuration
+{-===========> Configuration -}
 
 type PhotoName = String
 type PhotoUrl = String
@@ -23,7 +23,7 @@ data GalleryOptions = GalleryOptions
   , getPhotos       :: [PhotoName]
   }
 
--- ===========> Page skeleton
+{-===========> The actual page -}
 
 body :: GalleryOptions -> Html -- TODO return Scotty.ActionM? This allows reading params here. Template can be applied monadically?
 body (GalleryOptions header description photoUrl thumbnailUrl photos) = do
@@ -36,11 +36,20 @@ body (GalleryOptions header description photoUrl thumbnailUrl photos) = do
       forM_ photos $ \n -> apply (class_ "photoFrame") $ photoFrame (photoUrl n) (thumbnailUrl n)
   script $ toHtml sadlySomeJavascript -- In the future this will be eradicated
 
--- ===========> Construct parts of the webpage
-
 photoFrame :: PhotoUrl -> PhotoUrl -> Html
 photoFrame originalUrl thumbnailUrl =
   img ! src (stringValue thumbnailUrl) ! data_ (stringValue originalUrl)
+
+
+
+
+
+
+
+
+
+
+
 
 
 
