@@ -10,19 +10,14 @@ import Text.Blaze.Html5.Attributes as A
 externalLink :: AttributeValue -> Html -> Html
 externalLink url = a ! href url ! target "_blank" ! rel "noreferrer noopener"
 
--- Maps a function over the first value in a list
-mapFirst :: (a -> a) -> [a] -> [a]
-mapFirst _ []     = []
-mapFirst f (x:xs) = f x:xs
-
 -- TODO create a general table :: [[Html]] function
 -- Generates a table row with two cells
 tableRow2 :: Html -> Html -> Html
-tableRow2 a b = enumerate tr td [a, b]
+tableRow2 x y = enumerate tr td [x, y]
 
 -- Generates a table row with three cells
 tableRow3 :: Html -> Html -> Html -> Html
-tableRow3 a b c = enumerate tr td [a, b, c]
+tableRow3 x y z = enumerate tr td [x, y, z]
 
 -- Generates a table row with an arbitrary number of cells
 tableRow :: Foldable t => t Html -> Html

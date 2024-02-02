@@ -14,7 +14,7 @@ import HelperMethods (externalLink)
 
 body :: [Project] -> Html
 body projects = div ! class_ "centered-container" $ do
-  h1 "My projects"
+  h1 "My IT projects"
   div ! class_ "projects-collection" $ mapM_ projectTile projects
 
 -- ===========> Define data and properties

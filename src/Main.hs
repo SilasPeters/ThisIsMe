@@ -11,14 +11,12 @@ import Text.Blaze.Html.Renderer.Text ( renderHtml )
 import Data.Char ( toLower )
 
 import Control.Monad
-import Control.Monad.Trans
-import Control.Monad.IO.Class
-import Data.Text.Lazy.Encoding ( decodeUtf8 )
 import System.Directory ( listDirectory )
 import System.IO ( readFile' )
 import System.FilePath ( joinPath )
-import Data.List ( lookup, sort, isSuffixOf, singleton )
+import Data.List ( sortBy, isSuffixOf )
 import Data.Maybe ( fromJust )
+import Data.Ord ( comparing, Down(..) )
 
 import HelperMethods
 
@@ -31,7 +29,6 @@ import Photography
 -- These orientations can then be used to apply the 'vertical' or 'horizontal' class to the photos,
 -- to align them on the grid properly. Cus fuck Javascript, that's why.
 
-type Route = String
 type SourceCode = String
 type Title = String
 
@@ -45,7 +42,7 @@ defineGalleryOptions photoNames = GalleryOptions
   (Just "Displayed in reverse chronological order")
   ("/portfolio/" ++)
   ("/portfolioThumbnails/" ++)
-  (reverse $ sort photoNames)
+  (sortBy (comparing Down) photoNames)
 
 projects :: String -> (String -> String) -> IO [Project]
 projects projectsFolder toImageSrc = do
@@ -67,9 +64,9 @@ header pageTitle = H.header $ do
 navbar :: String -> H.Html
 navbar currentPage = H.nav H.! A.class_ "navbar-container" $ do
   H.div H.! A.class_ "navbar-body centered-container" $ do
-    forM_ pages $ \page ->
-      H.a H.! A.href (H.stringValue $ mapFirst toLower page) H.!? (page == currentPage, A.id "current-link") $ H.toHtml page
-    -- externalLink "https://photos.silaspeters.nl" "Photography"
+    forM_ pages $ \pageName ->
+      H.a H.! A.href (H.stringValue $ map toLower pageName) H.!? (pageName == currentPage, A.id "current-link") $ H.toHtml pageName
+      -- TODO here and in the routing section, you define the URL in different ways. Use a Map of (name, route(s))
 
 -- The button to toggle the view between html and haskell code, displayed in the bottom-right corner
 sourceButton :: Bool -> H.Html
@@ -87,13 +84,13 @@ loadSource sourceFolder = do
 
 -- Fills the page template with the given body
 page :: Title -> H.Html -> Bool -> S.ActionM ()
-page title page activeSourceButton = S.html $ renderHtml $
+page title html activeSourceButton = S.html $ renderHtml $
   H.docTypeHtml $ do
     header title
     H.body $ do
       navbar title
       sourceButton activeSourceButton
-      page
+      html
 
 -- Generates the body of a page which displays source code
 sourceBody :: SourceCode -> H.Html
@@ -109,7 +106,7 @@ normalOrSource title html source = do
     _           -> page title html False
 
 exposePage :: [S.RoutePattern] -> S.ActionM () -> S.ScottyM ()
-exposePage routes page = forM_ routes $ \r -> S.get r page
+exposePage routes html = forM_ routes $ \r -> S.get r html
 
 
 -- Set up middleware and routing (the API side)
