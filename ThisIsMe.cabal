@@ -42,7 +42,9 @@ executable ThisIsMe
                       text,
                       blaze-html,
                       wai-middleware-static,
-                      directory
+                      directory,
+                      filepath,
+                      MissingH
     hs-source-dirs:   src, src/pages
     default-language: Haskell2010
     ghc-options: -Wall -O2

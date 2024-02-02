@@ -16,7 +16,8 @@ import Control.Monad.IO.Class
 import Data.Text.Lazy.Encoding ( decodeUtf8 )
 import System.Directory ( listDirectory )
 import System.IO ( readFile' )
-import Data.List ( lookup, sort )
+import System.FilePath ( joinPath )
+import Data.List ( lookup, sort, isSuffixOf, singleton )
 import Data.Maybe ( fromJust )
 
 import HelperMethods
@@ -46,6 +47,14 @@ defineGalleryOptions photoNames = GalleryOptions
   ("/portfolioThumbnails/" ++)
   (reverse $ sort photoNames)
 
+projects :: String -> (String -> String) -> IO [Project]
+projects projectsFolder toImageSrc = do
+  projectNames         <- filter (not . isSuffixOf ".jpg") <$> listDirectory projectsFolder
+  let projectPaths      = map (\n -> joinPath [projectsFolder, n]) projectNames --TODO use joinPath everywhere?
+  projectDescriptions  <- mapM readFile projectPaths
+  let projectImagePaths = map (toImageSrc . flip (++) ".jpg" ) projectNames
+  return $ zipWith3 Project projectNames projectDescriptions projectImagePaths
+
 -- Defines default html header properties
 header :: String -> H.Html
 header pageTitle = H.header $ do
@@ -67,8 +76,8 @@ sourceButton :: Bool -> H.Html
 sourceButton active = H.button H.! A.id "source-button" H.! A.onclick onclickHref $
   H.img H.! A.src imgSrc
   where
-    onclickHref = if not active then "location.href='?displaySource=true'" else "location.href=location.href.split('?')[0]" 
-    imgSrc = if not active then "media/source-enable.png" else "media/source-disable.png" 
+    onclickHref = if not active then "location.href='?displaySource=true'" else "location.href=location.href.split('?')[0]"
+    imgSrc = if not active then "media/source-enable.png" else "media/source-disable.png"
 
 -- Preloads all source code to be displayed
 loadSource :: String -> IO [(String, String)]
@@ -117,12 +126,16 @@ main = do
   putStrLn "Pre-loaded source files:"
   mapM_ (putStrLn . (++) " - " . fst) sourceMap
 
+  loadedProjects <- projects "public/projects/" ("projects/" ++)
+  putStrLn "Processed projects:"
+  mapM_ (putStrLn . (++) " - " . show) loadedProjects
+
   S.scotty 3000 $ do
     S.middleware logStdoutDev  -- Log to console
     S.middleware $ staticPolicy (noDots >-> addBase "public")  -- Expose files in /pulic/
     S.middleware $ staticPolicy (noDots >-> addBase "src/pages/")  -- Expose source code
 
     exposePage ["/", "/home"] $ normalOrSource "Home" Home.body (fromJust $ lookup "src/pages/Home.hs" sourceMap)
-    exposePage ["/projects"] $ normalOrSource "Projects" Projects.body (fromJust $ lookup "src/pages/Projects.hs" sourceMap)
+    exposePage ["/projects"] $ normalOrSource "Projects" (Projects.body loadedProjects) (fromJust $ lookup "src/pages/Projects.hs" sourceMap)
     exposePage ["/photography", "/photos", "/fotos"] $ normalOrSource "Photography" (Photography.body galleryOptions) (fromJust $ lookup "src/pages/Photography.hs" sourceMap)
 

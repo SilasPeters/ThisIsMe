@@ -1,62 +1,38 @@
 {-# language OverloadedStrings #-}
 
-module Projects ( body ) where
+module Projects ( body, Project (..) ) where
 
 import Text.Blaze.Html5            as H hiding ( style, contents, header, body )
 import Text.Blaze.Html5.Attributes as A hiding ( name, rows )
 
 import Control.Monad
+import Data.List.Utils                         ( replace )
 import Prelude                          hiding ( div )
-
-import HelperMethods
+import HelperMethods (externalLink)
 
 -- ===========> Page skeleton
 
-body :: Html
-body = div $ do
+body :: [Project] -> Html
+body projects = div ! class_ "centered-container" $ do
   h1 "My projects"
-  div ! class_ "horizontal-stack" $ do
-  -- Generate rows of tiles representing projects
-    forM_ rows $ \(header, projects) ->
-      section ! class_ "vertical-highlights" $ do
-        h2 ! class_ "highlights-header" $ toHtml header
-        mapM_ projectTile projects
+  div ! class_ "projects-collection" $ mapM_ projectTile projects
 
 -- ===========> Define data and properties
 
-data Project = Project { name :: String, description :: String }
+data Project = Project { name :: String, description :: String, imageSrc :: String }
+  deriving (Show)
 
 -- Gets the URL of the project's repository
 projectRepo :: Project -> AttributeValue
-projectRepo p = stringValue $ "https://github.com/SilasPeters/" ++ name p
-
--- Gets the URL of the project's thumbnail
-projectThumbnail :: Project -> AttributeValue
-projectThumbnail p = stringValue $ "https://raw.githubusercontent.com/SilasPeters/" ++ name p ++ "/main/thumbnail.jpg"
+projectRepo project = stringValue $ "https://github.com/SilasPeters/" ++ githubName project
+  where githubName = replace " " "-" . name
 
 -- ===========> Construct parts of the webpage
 
--- Generates the HTML used to display a specified project
 projectTile :: Project -> Html
-projectTile p =
-  apply (class_ "tile") $ externalLink (projectRepo p) $ do
-    img ! src (projectThumbnail p)
+projectTile project =
+  externalLink (projectRepo project) ! class_ "projectTile externalIconException" $ do
+    img ! src (stringValue $ imageSrc project)
     div $ do
-      h4 $ toHtml $ name p
-      sub $ toHtml $ description p
-
--- Generates the HTML used to display a few projects as highlights
-highlights :: Foldable t => t Project -> Html
-highlights = undefined
-
--- The HTML displaying all projects in rows
-rows :: [(String, [Project])]
-rows = [("Catagory 1",
-           [Project "ThisIsMe" "Deze zou moeten werken"]),
-        ("Safe",
-           [Project "Testproject" "Testproject",
-            Project "Aap" "Noot en Mies",
-            Project "Testproject" "Testproject"]),
-        ("Sound",
-           [Project "Testproject" "Testproject"])]
-
+      p ! class_ "projectTile-header" $ toHtml $ name project
+      p ! class_ "projectTile-description" $ toHtml $ description project

@@ -29,7 +29,7 @@ body :: GalleryOptions -> Html -- TODO return Scotty.ActionM? This allows readin
 body (GalleryOptions header description photoUrl thumbnailUrl photos) = do
   div ! class_ "centered-container" $ do
     h1 $ toHtml header
-    case description of -- TOOD can become a helper method
+    case description of -- TODO can become a helper method
       Just x  -> p $ toHtml x
       Nothing -> mempty
     div ! class_ "gallery" $ do
@@ -41,6 +41,31 @@ body (GalleryOptions header description photoUrl thumbnailUrl photos) = do
 photoFrame :: PhotoUrl -> PhotoUrl -> Html
 photoFrame originalUrl thumbnailUrl =
   img ! src (stringValue thumbnailUrl) ! data_ (stringValue originalUrl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- The part below will soon be eradicated
 
 sadlySomeJavascript :: String
 sadlySomeJavascript = unlines

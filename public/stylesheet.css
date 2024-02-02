@@ -10,7 +10,7 @@
 body {
   background-color: var(--color-60);
   font-family: Cantarell, "Open Sans", Arial, Helvetica, sans-serif;
-  margin:0px;
+  margin: 0;
 }
 
 .centered-container {
@@ -31,11 +31,11 @@ body {
   cursor: pointer;
   border-color: var(--color-30-analogous);
 
-  transition: 0.3s;
+  transition: 0.3s ease;
 }
 
 #source-button:not(:hover) {
-  opacity: 80%;
+  opacity: 0.8;
 }
 
 .bigpicture {
@@ -57,9 +57,9 @@ body {
 }
 .bigpicture > img {
   width: 100%;
-  opacity: 100%;
+  opacity: 1;
 
-  -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, 
+  -webkit-mask-image: -webkit-gradient(linear, left top, left bottom,
     from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
 }
 .bigpicture > div > * {
@@ -72,7 +72,7 @@ body {
 /*   height: 100%; */
 /*   z-index: -1; */
 
-/*   -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, */ 
+/*   -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, */
 /*     from(rgba(0,0,0,0.2)), to(rgba(0,0,0,0))); */
 /* } */
 
@@ -81,7 +81,7 @@ body {
 /*   width: 100%; */
 /*   z-index: -1; */
 
-/*   -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, */ 
+/*   -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, */
 /*     from(rgba(0,0,0,0)), to(rgba(0,0,0,0.2))); */
 /* } */
 
@@ -104,33 +104,79 @@ body {
 /*   align-content: space-around; */
 /* } */
 
-.tile {
+.projects-collection {
+  display: grid;
+  place-items: center;
+  grid-template-columns: repeat(auto-fill, minmax(min(400px, 80%), 1fr)); /* TODO hardcoded */
+  grid-gap: 20px;
+}
+
+.projectTile {
+  /* height: 300px; /1* TODO hardcoded *1/ */
+  width: 100%;
   position: relative;
   font-size: large;
-  display: flex;
-  padding: 15px;
-  margin: 5px;
+  display: block;
+  margin: 10px;
   cursor: pointer;
+  overflow: hidden;
 
   /* Overwrite 'a' styles */
-  text-decoration: none; 
-  color: inherit;
-
-  transition: 0.3s;
+  /* text-decoration: none; */
+  /* color: inherit; */
 }
-.tile:hover {
-  background-color: var(--color-10);
-
-  /* Overwrite 'a' styles */
-  text-decoration: none; 
-  color: inherit;
+.projectTile:hover {
+  /* color: inherit; */
 }
-.tile > img {
-  width: 60%;
-  margin-right: 20px;
+.projectTile > img {
+  width: 100%;
+  /* height: 60%; */
+  /* margin-bottom: 20px; */
 }
-.tile > span {
-  width: 40%;
+.projectTile > div {
+  /* height: 10%; */
+  /* position: relative; */
+  /* background-color: #444; */
+  /* transition: 0.3s ease; */
+  position: absolute;
+  bottom: 3px; /* why is this nessescary? */
+  left: 0;
+  padding-left: 2%;
+  padding-right: 2%;
+  width: calc(100% - 2% - 2%);
+  height: 24%; /* TODO fix met em*/
+  background: rgba(0 0 0 / 75%);
+  overflow: hidden;
+  transition: 0.3s ease;
+}
+.projectTile-header {
+  font-size: xx-large;
+  font-weight: bold;
+  padding: 10px;
+  margin: 0;
+  color: var(--color-10);
+  position: relative;
+}
+.projectTile-header::after {
+  content: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAQElEQVR42qXKwQkAIAxDUUdxtO6/RBQkQZvSi8I/pL4BoGw/XPkh4XigPmsUgh0626AjRsgxHTkUThsG2T/sIlzdTsp52kSS1wAAAABJRU5ErkJggg==");
+  color: white;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  filter: invert(1); /* Makes the icon white. */
+}
+.projectTile-description {
+  font-size: x-large;
+  padding: 10px;
+  margin: 0;
+  color: var(--color-30);
+}
+.projectTile:hover > img {
+}
+.projectTile:hover > div {
+  height: 100%; /* TODO on mobile you cannot hover */
 }
 
 .haskell {
@@ -155,7 +201,7 @@ h2 {
   background-color: var(--color-60-analogous);
   padding: 13px;
   padding-bottom: 16px;
-  top: 0px;
+  top: 0;
 }
 
 .navbar-body {
@@ -169,15 +215,18 @@ h2 {
 a {
   text-decoration: none;
   color: var(--color-10);
-  transition: 0.3s;
+  transition: 0.3s ease;
 }
 a:hover {
   color: var(--color-30);
 }
 
 a[target="_blank"]::after {
-  content: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAQElEQVR42qXKwQkAIAxDUUdxtO6/RBQkQZvSi8I/pL4BoGw/XPkh4XigPmsUgh0626AjRsgxHTkUThsG2T/sIlzdTsp52kSS1wAAAABJRU5ErkJggg==);
+  content: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAQElEQVR42qXKwQkAIAxDUUdxtO6/RBQkQZvSi8I/pL4BoGw/XPkh4XigPmsUgh0626AjRsgxHTkUThsG2T/sIlzdTsp52kSS1wAAAABJRU5ErkJggg==");
   margin: 0 3px 0 5px;
+}
+a[target="_blank"].externalIconException::after {
+  content: none;
 }
 
 #current-link {
@@ -205,8 +254,7 @@ a[target="_blank"]::after {
 /* } */
 
 .gallery {
-  justify-items: center;
-  align-items: center;
+  place-items: center;
 
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -222,16 +270,16 @@ a[target="_blank"]::after {
 .photoFrame {
   width: 100%;
   cursor: pointer;
-  transition: 0.3s;
+  transition: 0.3s ease;
   border-radius: 10px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 4px 8px 0 rgba(0 0 0 / 20%), 0 6px 20px 0 rgba(0 0 0 / 19%);
 
   display: flex;
   justify-content: center;
 }
 .photoFrame:hover {
   transform: scale(1.1);
-  border-radius: 0px;
+  border-radius: 0;
 }
 
 #overlay {
@@ -241,7 +289,7 @@ a[target="_blank"]::after {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0 0 0 / 80%);
   z-index: 69;
 }
 
