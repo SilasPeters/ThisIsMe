@@ -24,6 +24,7 @@ import HelperMethods
 import Home
 import Projects
 import Photography
+import Ruben
 
 -- TODO process images to thumbnails, and while you are at it determine the orientations
 -- These orientations can then be used to apply the 'vertical' or 'horizontal' class to the photos,
@@ -135,4 +136,5 @@ main = do
     exposePage ["/", "/home"] $ normalOrSource "Home" Home.body (fromJust $ lookup "src/pages/Home.hs" sourceMap)
     exposePage ["/projects"] $ normalOrSource "Projects" (Projects.body loadedProjects) (fromJust $ lookup "src/pages/Projects.hs" sourceMap)
     exposePage ["/photography", "/photos", "/fotos"] $ normalOrSource "Photography" (Photography.body galleryOptions) (fromJust $ lookup "src/pages/Photography.hs" sourceMap)
+    exposePage ["/ruben"] $ page "Ruben" Ruben.body False
 
