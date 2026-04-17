@@ -2,7 +2,7 @@
 
 module Photography ( body, GalleryOptions(..), PhotoName, PhotoUrl ) where
 
-import Text.Blaze.Html5            as H hiding ( style, contents, header, body )
+import Text.Blaze.Html5            as H hiding ( style, contents, header, body, data_ )
 import Text.Blaze.Html5.Attributes as A
 
 import Control.Monad ( forM_ )

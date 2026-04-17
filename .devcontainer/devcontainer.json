@@ -4,13 +4,16 @@
 		"context": "..",
 		"dockerfile": "Dockerfile"
 	},
+  	"workspaceFolder": "/home/haskell/workspace",
+	"workspaceMount": "source=${localWorkspaceFolder},target=/home/haskell/workspace,type=bind",
 	"forwardPorts": [3000],
 	"customizations": {
 		"vscode": {
 			"extensions": ["haskell.haskell"],
 			"settings": {
-				"haskell.ghcupExecutablePath": "/root/.ghcup/bin/ghcup"
+				"haskell.ghcupExecutablePath": "/home/haskell/.ghcup/bin/ghcup"
 			}
 		}
-	}
+	},
+	"postCreateCommand": "stack build --only-dependencies"
 }
